@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  font-family: Helvetica Neue;
+}
+html,
+body,
+.cover-image {
+  height: 100%;
+}
+.cover-image {
+  background-image: url("background.jpg");
+  background-position: center center;
+  background-size: cover;
+  display: flex;
+}
+.content {
+  margin: auto;
+  text-align: center;
+}
+.content .hour {
+  color: #fff;
+  font-size: 80px;
+}
+.content .input {
+  color: #fff;
+  background: transparent;
+  border: none;
+  border-bottom: solid 1px #fff;
+  width: 100%;
+  outline: none;
+  font-size: 20px;
+}
+.text-container {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.text-container .close {
+  margin-left: 10px;
+  font-size: 10px;
+}
+.task-list {
+  position: absolute;
+  right: 0;
+  background: #000;
+  color: #fff;
+  font-size: 10px;
+  text-align: left;
+  padding: 5px;
+}
+.task-list input {
+  background: transparent;
+  outline: none;
+  color: #fff;
+  border: none;
+  border-bottom: solid 1px #fff;
+}

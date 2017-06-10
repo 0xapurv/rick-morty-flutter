@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<link rel="stylesheet" type="text/css" href="index.css">
+
+
+</head>
+<body>
+
+	<section class="cover-image" id="app">
+
+		<div class="content">
+
+			<p class="hour">{{ hour.h }}:{{ hour.m | hour }}:{{ hour.s | hour }}</p>
+
+			<input class="input" type="text"
+				v-model="text"
+				v-if="!isText"
+				v-on:blur="enterText"></input>
+
+			<div class="text-container" v-if="isText">
+				<p class="text">{{ text }}</p>
+				<span class="close" v-on:click="closed">X</span>
+			</div>
+
+			<div class="task-list">
+				<div v-for="task in tasks" class="task">{{ task }}</div>
+				<!-- <div class="task">task 1</div>
+				<div class="task">task 1</div> -->
+				<input type="text" v-model="textTask" v-on:blur="enterTask"></input>
+			</div>
+
+
+		</div>
+
+	</section>
+
+	<script src="https://unpkg.com/vue@2.3.3"></script>
+
+	<script>
+
+		var app =
+		new Vue({
+			el: '#app',
+			data: {
+				text: 'hola',
+				textTask: '',
+				tasks: [
+					'task1',
+					'task2'
+				],
+
+				images: [
+					'images1',
+					'images2',
+					'images3',
+					'images4',
+				]
+
+				hour: {
+					h: null,
+					m: null,
+					s: null
+				},
+
+				isText: false,
+
+			},
+
+			mounted : function () {
+				var self = this
+
+				self.calculateHour()
+
+				setInterval(function () {
+
+					self.calculateHour()
+
+				}, 1000)
+
+			},
+
+			methods: {
+
+				calculateHour: function () {
+					// console.log("calculateHour!")
+					var date = new Date()
+
+					var h = date.getHours()
+					var m = date.getMinutes()
+					var s = date.getSeconds()
+
+					this.hour.h = h
+					this.hour.m = m
+					this.hour.s = s
+				},
+
+				enterText: function () {
+					console.log('set new text!')
+
+					if(this.text != '')
+						this.isText = !this.isText
+				},
+
+				closed: function () {
+					console.log('closed!')
+					this.isText = !this.isText
+
+				},
+
+				enterTask: function () {
+					console.log('enterTask!')
+					this.tasks.push(this.textTask)
+					this.textTask = ''
+				}
+			},
+
+			filters: {
+				hour: function (x) {
+					if( x < 10 ) {
+						return '0' + x
+					}
+					else {
+						return x
+					}
+				}
+			}
+
+		})
+
+		var app = {
+
+			cosntructor: function () {
+
+			},
+
+			text: 'hello',
+			tasks: [
+				'task1',
+				'task2'
+			],
+			enterText: function () {
+				console.log('set new text!')
+			}
+		}
+
+	</script>
+
+</body>
+</html>

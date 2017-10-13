@@ -4,7 +4,8 @@ new Vue({
         active:false,
         numClicks:0,
         secs:10,
-        colors:['#9bcd77','#d777b0','#fed401','#ff2c3c', '#66c652']
+        colors:['#9bcd77','#d777b0','#fed401','#ff2c3c', '#66c652'],
+        background:['#9C27B0','#E91E63','#F44336','#3F51B5', '#2196F3','#009688','#323133']
     },
 
     ready:function(){
@@ -40,7 +41,9 @@ new Vue({
             }
 
             var color = this.colors[Math.round(Math.random()* (this.colors.length -1) ) ];
+            var background = this.background[Math.round(Math.random()*(this.background.length-1))];
             $("button").css({backgroundColor:color});
+            $("body").css({backgroundColor:background});
         }
     }
 })

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,23 +13,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
     <title>Clickest</title>
 </head>
-
 <body>
-
     <section id="app">
         <div id="div1">
           <button type="submit" @click="updateCount()" id="clickButton">
           </button>
         </div>
-
         <!-- Second status  -->
         <div id="status"></div>
         <h1> You clicked <b>{{ numClicks }}</b> times</h1>
         <h2> You have <b>{{ secs }}</b> secs left </h2>
-
         <script src="main.js"></script>
-
   </section>
 </body>
-
 </html>

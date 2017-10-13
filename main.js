@@ -15,12 +15,15 @@ new Vue({
                 if(self.secs == 0){
                     self.active = false;
                     $("button").addClass("over");
-                    $("#status").html("<h2>Game Over</h2>");
+                    $("#status").html("<h2>Game Over :( </h2>");
 
                 }
             }
         },1000);
     },
+
+
+
 
     methods:{
         updateCount:function(){

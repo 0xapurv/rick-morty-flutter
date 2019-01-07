@@ -1,6 +1,7 @@
 # Rick & Morty - Flutter 
-
-A new Flutter application to retrive data from Rick&amp;Morty API.
+A new Flutter application to retrive data from Rick & Morty API.
+---
+![](https://media.giphy.com/media/q9KaEjVuKcpl6/giphy.gif)
 
 ## Getting Started
 

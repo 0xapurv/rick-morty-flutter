@@ -1,4 +1,4 @@
-# rick_morty_app
+# Rick & Morty - Flutter 
 
 A new Flutter application to retrive data from Rick&amp;Morty API.
 

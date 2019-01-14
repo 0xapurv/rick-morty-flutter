@@ -19,9 +19,11 @@ class Character {
         gender = valueOrDefaultValue(jsonMap['gender']),
         origin = Origin.fromJson(jsonMap['origin']),
         location = Location.fromJson(jsonMap['location']),
-        image = valueOrDefaultValue(jsonMap['image']),
-        assert (origin != null),
-        assert (location != null);
+        image = valueOrDefaultValue(jsonMap['image']) {
+    assert (origin != null);
+    assert (location != null);
+  }
+
 }
 
 class Origin {

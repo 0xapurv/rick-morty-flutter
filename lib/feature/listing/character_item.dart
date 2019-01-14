@@ -16,7 +16,7 @@ class CharacterItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () =>(_character),
+        onTap: () => onTap(_character),
         child: Stack(
           children: <Widget>[
             Positioned.fill(child: Image.network(_character.image, fit: BoxFit.fill,)),

@@ -240,7 +240,7 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        leading: IconButton(icon: AnimatedIcon(icon: AnimatedIcons.close_menu, progress: _controller.view), onPressed: null,),
+        leading: IconButton(icon: AnimatedIcon(icon: AnimatedIcons.close_menu, progress: _controller.view), onPressed: _toggleBackdropPanelVisibility,),
         title: _BackdropTitle(
           listenable: _controller.view,
           frontTitle: widget.frontTitle,

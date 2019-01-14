@@ -45,6 +45,7 @@ class CharacterState extends State<CharacterScreen> {
   void _onCharacterTapped(Character character) {
     setState(() {
       _currentCharacter = character;
+      print("Character tapped");
     });
   }
 

@@ -1,4 +1,13 @@
-# Rick & Morty - Flutter 
+<div align="center">
+  
+  
+  <img src="https://dumielauxepices.net/sites/default/files/rick-and-morty-clipart-741375-6689671.png" width="150"/>
+  
+   # Rick & Morty - Flutter 
+  
+  
+</div>
+
 A new Flutter application to retrive data from Rick & Morty API.
 ---
 ![](https://media.giphy.com/media/q9KaEjVuKcpl6/giphy.gif)

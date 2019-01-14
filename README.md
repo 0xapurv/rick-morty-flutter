@@ -1,7 +1,7 @@
 <div align="center">
   
   
-  ![](https://dumielauxepices.net/sites/default/files/rick-and-morty-clipart-741375-6689671.png)
+  <img src="https://dumielauxepices.net/sites/default/files/rick-and-morty-clipart-741375-6689671.png" width="150"/>
   
    # Rick & Morty - Flutter 
   

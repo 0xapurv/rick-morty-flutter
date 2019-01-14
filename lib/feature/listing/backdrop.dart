@@ -45,17 +45,57 @@ class _BackdropTitle extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    return null;
+    final Animation<double> animation = this.listenable;
+    return DefaultTextStyle(
+      style: Theme
+        .of(context)
+        .primaryTextTheme
+        .title,
+      softWrap: false,
+      overflow: TextOverflow.ellipsis,
+      child: Stack(
+        children: <Widget>[
+          Opacity(
+            opacity: CurvedAnimation(
+              parent: ReverseAnimation(animation),
+              curve: Interval(0.5, 1.0),
+            ).value,
+            child: backTitle,
+          ),
+          Opacity(
+            opacity: CurvedAnimation(
+              parent: animation,
+              curve: Interval(0.5, 1.0)
+            ).value,
+            child: frontTitle,
+          )
+        ],
+      ),
+    );
   }
 }
 
 class Backdrop extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return null;
-  }
+  final Character currentCharacter;
+  final Widget frontPanel;
+  final Widget backPanel;
+  final Widget frontTitle;
+  final Widget backTitle;
 
+  const Backdrop({
+    @required this.currentCharacter,
+    @required this.frontPanel,
+    @required this.backPanel,
+    @required this.frontTitle,
+    @required this.backTitle,
+  })
+      : assert(frontPanel != null),
+        assert(backPanel != null),
+        assert(frontTitle != null),
+        assert(backTitle != null);
+
+  @override
+  _BackdropState createState() => _BackdropState();
 }
 
 
@@ -74,8 +114,53 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
   void didUpdateWidget(Backdrop oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    if (widget.currentCharacter != oldWidget.currentCharacter) {
+      setState(() {
+        _controller.fling(
+          velocity: _backdropPanelVisible ? -_kFlingVelocity : _kFlingVelocity
+        );
+      });
+    } else if (!_backdropPanelVisible && widget.currentCharacter != null) {
+      setState(() {
+        _controller.fling(velocity: _kFlingVelocity);
+      });
+    }
   }
 
+  bool get _backdropPanelVisible {
+    final AnimationStatus status = _controller.status;
+    return status == AnimationStatus.completed || status == AnimationStatus.forward;
+  }
+
+  void _toggleBackdropPanelVisibility() {
+     _controller.fling(velocity: _backdropPanelVisible ? -_kFlingVelocity : _kFlingVelocity);
+  }
+
+  double get _backdropHeight {
+    final RenderBox renderBox = _backdropKey.currentContext.findRenderObject();
+    return renderBox.size.height;
+  }
+
+  void _handleDragUpdate(DragUpdateDetails details) {
+    if (_controller.isAnimating || _controller.status == AnimationStatus.completed) return;
+
+    _controller.value -= details.primaryDelta / _backdropHeight;
+  }
+
+  void _handleDragEnd(DragEndDetails details) {
+    if (_controller.isAnimating || _controller.status == AnimationStatus.completed) return;
+
+    final double flingVelocity = details.velocity.pixelsPerSecond.dy / _backdropHeight;
+
+    if (flingVelocity < 0.0 ) {
+      _controller.fling(velocity: math.max(_kFlingVelocity, -flingVelocity));
+    } else if (flingVelocity > 0.0) {
+      _controller.fling(velocity: math.min(-_kFlingVelocity, -flingVelocity));
+    } else {
+      _controller.fling(velocity: _controller.value < 0.5 ? -_kFlingVelocity : _kFlingVelocity);
+    }
+
+  }
 
   @override
   void dispose() {
@@ -83,9 +168,51 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
     _controller.dispose();
   }
 
+  Widget _buildStack(BuildContext context, BoxConstraints constraints) {
+    const double panelTitleHeight = 48.0;
+    final Size panelSize = constraints.biggest;
+    final double panelTop = panelSize.height - panelTitleHeight;
+
+    Animation<RelativeRect> panelAnimation = RelativeRectTween(
+      begin: RelativeRect.fromLTRB(0.0, panelTop, 0.0, panelTop - panelSize.height),
+      end: RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
+    ).animate(_controller.view);
+
+    return Container(
+      key: _backdropKey,
+      child: Stack(
+        children: <Widget>[
+          widget.backPanel,
+          PositionedTransition(
+            rect: panelAnimation,
+            child: _BackdropPanel(
+              onTap: _toggleBackdropPanelVisibility,
+              onVerticalDragUpdate: _handleDragUpdate,
+              onVerticalDragEnd: _handleDragEnd,
+              title: Text(
+                widget.currentCharacter == null ? _defaultTitle : widget.currentCharacter.name
+              ),
+              child: widget.frontPanel,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        leading: IconButton(icon: AnimatedIcon(icon: AnimatedIcons.close_menu, progress: _controller.view), onPressed: null,),
+        title: _BackdropTitle(
+          listenable: _controller.view,
+          frontTitle: widget.frontTitle,
+          backTitle: widget.backTitle,
+        ),
+      ),
+      body: LayoutBuilder(builder: _buildStack),
+    );
   }
 }
